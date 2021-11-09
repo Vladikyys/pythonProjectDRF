@@ -1,0 +1,75 @@
+openapi: 3.0.2
+info:
+  title: 'My API'
+  version: 'v1'
+components:
+ securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+paths:
+  /auth/users/:
+    post:
+      summary: 'Create a user'
+      description: "Allows you to create a user with specific fields"
+      tags: ['Registration']
+      operationId: RegistrationUser
+      parameters:
+        - name: email
+          in: query
+          description: "**Email**. *Example: example@example.com*. You can write any name you want, but do not use symbols, and also adhere to the format."
+        - name: password
+          in: query
+          description: "**Password**. *Example: example123456*. The password must be at least 8 characters long. It also has to be difficult so that no one can guess it."
+        - name: status
+          in: query
+          description: "**Status**. *Example: Customer or Executor*. The status indicates who the user is."
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  password:
+                    type: string
+                  status:
+                    type: ''
+  /api/all-users/:
+    get:
+      summary: All users
+      description:
+      tags: ['Get Users']
+      operationId: Users
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+      requestBody:
+        content:
+          application/json:
+            schema:
+
+
+

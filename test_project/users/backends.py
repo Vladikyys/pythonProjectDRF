@@ -81,4 +81,4 @@ class JWTAuthentication(authentication.BaseAuthentication):
             msg = 'Данный пользователь деактивирован.'
             raise exceptions.AuthenticationFailed(msg)
 
-        return (user, token)
+        return user, token
