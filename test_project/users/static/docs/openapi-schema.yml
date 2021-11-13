@@ -13,7 +13,7 @@ paths:
     post:
       summary: 'Create a user'
       description: "Allows you to create a user with specific fields"
-      tags: ['Registration']
+      tags: ['User']
       operationId: RegistrationUser
       parameters:
         - name: email
@@ -44,15 +44,17 @@ paths:
                 properties:
                   email:
                     type: string
+                    default: 'example@gmail.com'
                   password:
                     type: string
                   status:
-                    type: ''
+                    type: string
+                    default: 'Customer'
   /api/all-users/:
     get:
-      summary: All users
-      description:
-      tags: ['Get Users']
+      summary: Get all users
+      description: 'Allows you to get information about each user'
+      tags: ['User']
       operationId: Users
       parameters: []
       responses:
@@ -70,6 +72,90 @@ paths:
         content:
           application/json:
             schema:
+  /api/announcements/:
+    get:
+      summary: Get announcements
+      decription: 'Allows you to get all announcements'
+      tags: ['Announcement']
+      operationId: Announcements
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+      requestBody:
+        content:
+          application/json:
+            schema:
+    post:
+      summary: Create announcement
+      decription: 'Allows you to create a announcement'
+      tags: [ 'Announcement' ]
+      operationId: Announcements
+      parameters: [ ]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                body:
+                  type: string
+                owner:
+                  type: integer
+                  default: 1
+  /api/announcements/executor/:
+    post:
+      summary: Perform announcement
+      decription: 'Allows you to perform a announcement'
+      tags: [ 'Announcement' ]
+      operationId: Announcements
+      parameters: [ ]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                announcement_id:
+                  type: integer
+                  default: 0
+                executor_id:
+                  type: integer
+                  default: 0
 
 
 

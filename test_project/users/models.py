@@ -9,33 +9,29 @@ from .managers import CustomUserManager
 
 class CustomUser(AbstractUser):
     STATUS = (
-        ('С', _('Customer')),
-        ('E', _('Executor')),
+        ('Customer', 'Customer'),
+        ('Executor', 'Executor'),
     )
     objects = CustomUserManager()
     username = None
     email = models.EmailField(verbose_name='email', unique=True, null=True, max_length=100)
-    status = models.CharField(max_length=1, choices=STATUS)
+    status = models.CharField(max_length=8, choices=STATUS)
     first_name = models.CharField(max_length=120, blank=False)
-    second_name = models.CharField(max_length=120, blank=False)
+    last_name = models.CharField(max_length=120, blank=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['status']
 
-    # def __str__(self):
-    #     return self.email
-    #
-    # @property
-    # def token(self):
-    #     """
-    #     Позволяет получить токен пользователя путем вызова user.token, вместо
-    #     user._generate_jwt_token(). Декоратор @property выше делает это
-    #     возможным. token называется "динамическим свойством".
-    #     """
-    #     return self._generate_jwt_token()
+    def __str__(self):
+        return str(self.pk)
+
+    @property
+    def token(self, t):
+        u_token = t
+        return u_token
     #
     # def get_full_name(self):
     #     """
@@ -61,3 +57,17 @@ class CustomUser(AbstractUser):
     #     }, settings.SECRET_KEY, algorithm='HS256')
     #
     #     return token
+
+
+class Announcement(models.Model):
+    STATUS = (
+        ('Created', 'Created'),
+        ('Executing', 'Executing'),
+        ('Done', 'Done')
+    )
+    title = models.CharField(max_length=120)
+    description = models.TextField()
+    body = models.TextField()
+    status = models.CharField(choices=STATUS, max_length=9, default='Created')
+    owner = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='owner_id')
+    executor = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='executor_id', null=True)
