@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime, timedelta
 import jwt
 from django.contrib.auth.models import AbstractUser
@@ -14,7 +15,7 @@ class CustomUser(AbstractUser):
     )
     objects = CustomUserManager()
     username = None
-    email = models.EmailField(verbose_name='email', unique=True, null=True, max_length=100)
+    email = models.EmailField(verbose_name='email', unique=True, max_length=100, default=uuid.uuid1)
     status = models.CharField(max_length=8, choices=STATUS)
     first_name = models.CharField(max_length=120, blank=False)
     last_name = models.CharField(max_length=120, blank=False)
